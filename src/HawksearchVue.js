@@ -217,11 +217,11 @@ class HawksearchVue {
                 }
             },
             watch: {
-                searchOutput: function (n, o) {
-                    this.$emit('resultsupdate', n);
+                searchOutput: function (newValue, oldValue) {
+                    this.$emit('resultsupdate', newValue, oldValue);
                 },
-                pendingSearch: function (n, o) {
-                    this.$emit('searchupdate', n);
+                pendingSearch: function (newValue, oldValue) {
+                    this.$emit('searchupdate', newValue, oldValue);
                 }
             },
             methods: {
@@ -893,8 +893,9 @@ class HawksearchVue {
     }
 
     static emitToAll(eventType) {
+        let args = Array.prototype.slice.call(arguments,1);
         for (let [id, widget] of Object.entries(HawksearchVue.widgetInstances)) {
-            widget.$emit(eventType);
+            widget.$emit(eventType, ...args);
         }
     }
 }
